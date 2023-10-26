@@ -80,7 +80,7 @@ func main() {
 		fmt.Sprintf("-var-file=%s", overridesPackerVarsPath),
 		"installers/packer_template.pkr.hcl",
 	}
-
+	fmt.Println(packerArgs)
 	// packer inspect
 	packerInspectArgs := []string{
 		"inspect",
