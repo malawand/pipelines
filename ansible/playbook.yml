@@ -1,0 +1,76 @@
+---
+- name: setup NTP on all servers
+  hosts: all
+  become: yes
+  tasks:
+    - name: Ensure NTP is installed.
+      apt: name=ntp state=present
+    - name: Ensure NTP is running
+      service: name=ntpd state=started enabled=yes
+- hosts: all
+  become: true
+  vars:
+    container_count: 1
+    default_container_name: docker
+    default_container_image: docker.elastic.co/elasticsearch/elasticsearch:8.10.3
+    default_container_command: run
+  tasks:
+      - name: Install aptitude
+        apt:
+          name: aptitude
+          state: latest
+          update_cache: true
+
+      - name: Install required system packages
+        apt:
+          pkg:
+            - apt-transport-https
+            - ca-certificates
+            - curl
+            - software-properties-common
+            - python3-pip
+            - virtualenv
+            - python3-setuptools
+          state: latest
+          update_cache: true
+      - name: Add Docker GPG apt Key
+        apt_key:
+          url: https://download.docker.com/linux/ubuntu/gpg
+          state: present
+
+      - name: Add Docker Repository
+        apt_repository:
+          repo: deb https://download.docker.com/linux/ubuntu focal stable
+          state: present
+
+      - name: Update apt and install docker-ce
+        apt:
+          name: docker-ce
+          state: latest
+          update_cache: true
+      
+      - name: Pull default Docker image
+        community.docker.docker_image:
+          name: "{{ default_container_image }}"
+          source: pull
+
+      - name: Create default containers
+        community.docker.docker_container:
+          name: "{{ default_container_name }}{{ item }}"
+          image: "{{ default_container_image }}"
+          published_ports: 9200:9200
+          state: started
+          restart: true
+        with_sequence: count={{ container_count }}
+
+      - name: Log into Docker Hub
+        shell: |
+          sudo docker login -u mlawand94 -p "Ny8-LSY-SFL-W9e!-11"
+      
+      - name: Create Kibana
+        community.docker.docker_container:
+          name: "kibana"
+          image: "docker.elastic.co/kibana/kibana:8.10.3"
+          published_ports: 5601:5601
+          state: started
+          restart: true

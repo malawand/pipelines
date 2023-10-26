@@ -1,0 +1,1 @@
+./builder -n testvmelasticWithcontainerdeployed -packer-path /opt/homebrew/bin/packer -r bookworm
