@@ -9,4 +9,4 @@
       seconds: 90
   - name: Creating inventory file
     shell: |
-      echo -e \[example]\\n$(vim-cmd vmsvc/get.summary 88 | grep -i address | cut -d " " -f 9 | sed 's/"//g' | sed 's/,//g') > /tmp/inventory
+      echo -e \[docker]\\n$(vim-cmd vmsvc/get.summary 88 | grep -i address | cut -d " " -f 9 | sed 's/"//g' | sed 's/,//g') > /tmp/dockerinventory
