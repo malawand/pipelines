@@ -1,6 +1,12 @@
 ---
 - hosts: esxi-host
   tasks:
-  - name: Remove Stoped docker containers
+  - name: Power on newly created VM
     shell: |
-      vim-cmd vmsvc/power.off $(vim-cmd vmsvc/getallvms | grep -i testWithJenkins | cut -d " " -f 1-4)
+      vim-cmd vmsvc/power.on $(vim-cmd vmsvc/getallvms | grep -i testWithJenkins | cut -d " " -f 1-4)
+  - name: Wait for VM to get an IP address
+    pause:
+      seconds: 90
+  - name: Creating inventory file
+    shell: |
+      echo -e \[example]\\n$(vim-cmd vmsvc/get.summary 88 | grep -i address | cut -d " " -f 9 | sed 's/"//g' | sed 's/,//g') > /tmp/inventory
