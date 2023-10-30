@@ -3,4 +3,4 @@
   tasks:
   - name: Remove Stoped docker containers
     shell: |
-      vim-cmd vmsvc/power.on $(vim-cmd vmsvc/getallvms | grep -i testWithJenkins | cut -d " " -f 1-4)
+      vim-cmd vmsvc/power.off $(vim-cmd vmsvc/getallvms | grep -i testWithJenkins | cut -d " " -f 1-4)
