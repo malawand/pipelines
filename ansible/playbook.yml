@@ -1,8 +1,6 @@
 ---
 - name: setup NTP on all servers
   hosts: docker
-  env:
-    ANSIBLE_HOST_KEY_CHECKING: false
   become: yes
   vars:
     ansible_host_key_checking: false
@@ -12,8 +10,6 @@
     - name: Ensure NTP is running
       service: name=ntpd state=started enabled=yes
 - hosts: docker
-  env:
-    ANSIBLE_HOST_KEY_CHECKING: false
   become: true
   vars:
     container_count: 1
