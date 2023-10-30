@@ -2,9 +2,6 @@
 - hosts: esxi-host
   gather_facts: false
   tasks:
-  - name: Write new instance host key to known hosts
-    shell: |
-      'ssh-keyscan -H {{inventory_hostname}}' >> ~/.ssh/known_hosts
   - name: Power on newly created VM
     shell: |
       vim-cmd vmsvc/power.on $(vim-cmd vmsvc/getallvms | grep -i testWithJenkins | cut -d " " -f 1-4)
