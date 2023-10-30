@@ -1,7 +1,5 @@
 ---
 - hosts: esxi-host
-  vars:
-    ANSIBLE_HOST_KEY_CHECKING: false
   gather_facts: false
   tasks:
   - name: Write new instance host key to known hosts
