@@ -1,7 +1,4 @@
 ---
-[defaults]
-host_key_checking = False
-
 - hosts: esxi-host
   vars:
     ANSIBLE_HOST_KEY_CHECKING: false
