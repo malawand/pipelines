@@ -1,5 +1,5 @@
 ---
-- hosts: example
+- hosts: docker
   gather_facts: false
   become: yes
   tasks:
