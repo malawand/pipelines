@@ -1,6 +1,6 @@
 ---
 - hosts: esxi-host
-  env:
+  vars:
     ANSIBLE_HOST_KEY_CHECKING: false
   gather_facts: false
   tasks:
