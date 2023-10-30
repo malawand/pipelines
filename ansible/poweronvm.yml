@@ -5,7 +5,6 @@
   gather_facts: false
   tasks:
   - name: Write new instance host key to known hosts
-    connection: local
     shell: |
     'ssh-keyscan -H {{inventory_hostname}}' >> ~/.ssh/known_hosts
   - name: Power on newly created VM
