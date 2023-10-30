@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: example
   gather_facts: false
   become: yes
   tasks:
