@@ -1,5 +1,7 @@
 ---
 - hosts: esxi-host
+  env:
+    ANSIBLE_HOST_KEY_CHECKING: false
   gather_facts: false
   tasks:
   - name: Power on newly created VM
