@@ -1,6 +1,6 @@
 ---
 hostname: "10.2.11.3"
-name: "testWithJenkins"
+name: "demo-kibana"
 password: "savqi9-mewces-nAcjod!-11"
 power_info:
   start_action: "powerOn"

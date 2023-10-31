@@ -4,10 +4,10 @@
   tasks:
   - name: Power on newly created VM
     shell: |
-      vim-cmd vmsvc/power.on $(vim-cmd vmsvc/getallvms | grep -i testWithJenkins | cut -d " " -f 1-4)
+      vim-cmd vmsvc/power.on $(vim-cmd vmsvc/getallvms | grep -i demo-kibana | cut -d " " -f 1-4)
   - name: Wait for VM to get an IP address
     pause:
       seconds: 90
   - name: Creating inventory file
     shell: |
-      echo -e \[docker]\\n$(vim-cmd vmsvc/get.summary $(vim-cmd vmsvc/getallvms | grep -i testWithJenkins | cut -d " " -f 1-4) | grep -i address | cut -d " " -f 9 | sed 's/"//g' | sed 's/,//g') > /tmp/dockerinventory
+      echo -e \[docker]\\n$(vim-cmd vmsvc/get.summary $(vim-cmd vmsvc/getallvms | grep -i demo-kibana | cut -d " " -f 1-4) | grep -i address | cut -d " " -f 9 | sed 's/"//g' | sed 's/,//g') > /tmp/dockerinventory
