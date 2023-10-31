@@ -12,6 +12,22 @@ pipeline{
                     sh '$WORKSPACE/esxi-vm-packer/builder -n testWithJenkins -packer-path /opt/homebrew/bin/packer -r bookworm'       
                 }
             }
-        }
+        }   
+        stage('Powering on newly deployed VM...'){
+            steps {
+                dir('ansible'){
+                    sh 'ansible-playbook poweronvm.yml -i inventory -u root --connection-password-file password.txt'
+                    sh 'export ANSIBLE_HOST_KEY_CHECKING=False'
+                    sh 'sshpass -f $WORKSPACE/ansible/password.txt scp root@10.2.11.3:/tmp/dockerinventory $WORKSPACE/ansible/dockerinventory'
+                }
+            }
+        }          
+        stage('Deploying Docker Containers...'){
+            steps {
+                dir('ansible'){
+                    sh 'ansible-playbook playbook.yml -i dockerinventory -u malawand --connection-password-file vmpassword.txt'       
+                }
+            }
+        }  
     }
 }
