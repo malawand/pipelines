@@ -52,6 +52,20 @@
           state: latest
           update_cache: true
       
+      - name: Pull ElasticSearch Image
+        community.docker.docker_image:
+          name: "docker.elastic.co/elasticsearch/elasticsearch:8.10.3"
+          source: pull
+
+      - name: Create default containers
+        community.docker.docker_container:
+          name: "{{ default_container_name }}{{ item }}"
+          image: "docker.elastic.co/elasticsearch/elasticsearch:8.10.3"
+          published_ports: 9200:9200
+          state: started
+          restart: true
+        with_sequence: count={{ container_count }}
+
       - name: Create Kibana
         community.docker.docker_container:
           name: "kibana"

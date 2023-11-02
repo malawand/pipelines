@@ -6,14 +6,14 @@ pipeline{
                 git branch: 'main', credentialsId: 'aa903527-77a4-45e9-b58a-92d399eb2eeb', url: 'https://github.com/malawand/esxivmdeployment.git'
             }
         }
-        stage('Deploying OS into ESXi...'){
+        stage('Deploying Debian VM into ESXi...'){
             steps {
                 dir('esxi-vm-packer'){
-                    sh '$WORKSPACE/esxi-vm-packer/builder -n testWithJenkins -packer-path /opt/homebrew/bin/packer -r bookworm'       
+                    sh '$WORKSPACE/esxi-vm-packer/builder -n demo-kibana -packer-path /opt/homebrew/bin/packer -r bookworm'       
                 }
             }
         }   
-        stage('Powering on newly deployed VM...'){
+        stage('Powering on new VM...'){
             steps {
                 dir('ansible'){
                     sh 'ansible-playbook poweronvm.yml -i inventory -u root --connection-password-file password.txt'
@@ -22,7 +22,7 @@ pipeline{
                 }
             }
         }          
-        stage('Deploying Docker Containers...'){
+        stage('Deploying Kibana & Elastic Docker Containers...'){
             steps {
                 dir('ansible'){
                     sh 'ansible-playbook playbook.yml -i dockerinventory -u malawand --connection-password-file vmpassword.txt'       
